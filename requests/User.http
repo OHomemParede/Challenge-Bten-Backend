@@ -2,10 +2,10 @@
 GET http://localhost:3010/api/users
 
 ### GET USER
-GET http://localhost:3010/api/users/1
+GET http://localhost:3010/api/users/3
 
 ### DELETE USER
-DELETE http://localhost:3010/api/users/6
+DELETE http://localhost:3010/api/users/2
 
 ### ADD USER
 POST http://localhost:3010/api/users
@@ -21,13 +21,28 @@ content-type: application/json
 }
 
 ### UPDATE USER
-PUT http://localhost:3010/api/users/1
+PUT http://localhost:3010/api/users/3
 content-type: application/json
 
 {
   "name": "Teste A",
-  "email": "testeB@gmail.com",
-  "password": "123456"
+  "email": "testeA@gmail.com",
+  "password": "1234567"
 }
 
 ### LOGIN USER
+POST http://localhost:3010/api/users/login
+content-type: application/json
+
+{
+  "email": "testeA@gmail.com",
+  "password": "1234567"
+}
+
+
+### AUTH USER
+POST http://localhost:3010/api/users/auth
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjMsImVtYWlsIjoidGVzdGVBQGdtYWlsLmNvbSIsImlhdCI6MTYzMTY3NTQ5NSwiZXhwIjoxNjMxNjc3Mjk1fQ.AnaJHQfQELUCbRDjs0Rx6kGH96tSE5-CLpiaSH5J_Bk
+
+
+

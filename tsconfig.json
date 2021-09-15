@@ -24,7 +24,8 @@
       "@routes/*": ["./src/routes/*"],
       "@services/*": ["src/services/*"],
       "@config/*": ["./src/config/*"],
-      "@middlewares/*": ["./src/middlewares/*"]
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": [

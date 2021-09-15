@@ -1,6 +1,7 @@
 import { getRepository, Repository, getConnection } from "typeorm";
 import { User } from "@models/User";
 import { validate, ValidationError } from "class-validator";
+import Token from "@utils/Token";
 
 class UserService {
     //============================ validateData ============================
@@ -115,9 +116,39 @@ class UserService {
     //============================ deleteUser ============================
     async deleteUser(userId: string) {
         const userRepository: Repository<User> = getRepository(User);
-        const user: User = await userRepository.findOne(userId);
-
         return await userRepository.delete(userId);
     }
-}
+
+    //============================ loginUser ============================
+    async loginUser(email, password) {
+        const userRepository: Repository<User> = getRepository(User);
+        const user: User = await userRepository.findOne({ where: { email } });
+        if (!user) 
+            return null;
+
+        const ValidPassword = await user.passwordValidate(password);
+        if (!ValidPassword) 
+            return null;
+
+        return await Token.generateToken({
+            idUser: user.idUser,
+            email: user.email,
+        });
+
+    }
+
+    //============================ authUser ============================
+    async authUser(token: string) {
+        const tokenData = await Token.validateToken(token);
+        if(!tokenData)
+            return null;
+            
+        const userRepository: Repository<User> = getRepository(User);
+        const user: User = await userRepository.findOne({ where: { email: (<any>tokenData).email } });
+
+        return await this.getUser( (<any>user.idUser) );
+
+
+    }
+}   
 export default new UserService();

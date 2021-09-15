@@ -8,17 +8,16 @@ class UserMiddleware {
      */
     validUserId(req: Request, res: Response, next: NextFunction) {
         const { userId = null } = req.params;
-        if (!userId)
-            return res.status(400).json({ error: "UserId is missing" });
+        if (!userId) return res.status(400).json({ error: "UserId is missing" });
 
         return next();
     }
 
-    //============================ validBody ============================
+    //============================ validAdd ============================
     /**
-     *  Verifica os parametros passados pelo body para adicionar um usuario.
+     *  Verifica os parametros passados pelo body para adicionar um usuário.
      */
-    async validBody(req: Request, res: Response, next: NextFunction) {
+    async validAdd(req: Request, res: Response, next: NextFunction) {
         const {
             name = "",
             email = "",
@@ -32,6 +31,18 @@ class UserMiddleware {
 
         if (validationErrors.length === 0) return next();
         else return res.status(400).json(validationErrors);
+    }
+
+    //============================ validlogin ============================
+    /**
+     *  Verifica os parametros passados pelo body para efetuar o login do usuário.
+     */
+    async validLogin(req: Request, res: Response, next: NextFunction) {
+        const { email = '', password = '' } = req.body;
+        if (!email || !password)
+            return res.status(400).json({ error: "Missing credentials, [email] or [password]." });
+
+        return next();
     }
 }
 

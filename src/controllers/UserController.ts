@@ -85,7 +85,6 @@ class UserController {
                 if (userUpdated) return res.status(200).json(userUpdated);
 
                 return res.status(409).json({ error: "conflict email" });
-                
             } else return res.status(400).json(validationErrors);
         } catch (error) {
             console.error(error);
@@ -96,8 +95,7 @@ class UserController {
     //============================ deleteUser ============================
     async deleteUser(req: Request, res: Response) {
         try {
-            const { userId = null } = req.params;
-            if (!userId) return res.status(400).json({ error: "UserId is missing" });
+            const { userId } = req.params;
 
             const user: User = await UserService.getUser(userId, true);
             if (!user) return res.status(404).json({ error: "User not found" });
@@ -105,6 +103,46 @@ class UserController {
             await UserService.deleteUser(userId);
 
             return res.status(200).json({ mensage: "User deleted" });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: error.message });
+        }
+    }
+
+    //============================ loginUser ============================
+    async loginUser(req: Request, res: Response) {
+        try {
+            const { email, password } = req.body;
+
+            const token = await UserService.loginUser(email, password);
+            if (!token) return res.status(400).json({ error: "Wrong email or password" });
+
+            return res.status(200).json({
+                email,
+                token,
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: error.message });
+        }
+    }
+
+    //============================ authUser ============================
+    async authUser(req: Request, res: Response) {
+        try {
+            const { authorization = null } = req.headers;
+
+            if (!authorization)
+                return res.status(400).json({
+                    error: "Login is required. (Missing Token)",
+                });
+            const [type, token] = authorization.split(" ");
+
+            const authUser = await UserService.authUser(token);
+            if (!authUser) return res.status(401).json({ error: "Invalid token" });
+
+            return res.status(200).json(authUser);
+
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: error.message });
