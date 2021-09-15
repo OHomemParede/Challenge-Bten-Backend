@@ -1,4 +1,4 @@
-const dbconfig = {
+let dbconfig = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
   synchronize: true,
@@ -16,8 +16,18 @@ const dbconfig = {
 };
 
 if (process.env.NODE_ENV !== 'dev') {
-  dbconfig.entities = ["dist/models/*.{ts,js}"];
-  dbconfig.migrations = ["dist/database/migration/*.{ts,js}"];
+  dbconfig = {
+    type: 'postgres',
+    url: process.env.DATABASE_URL,
+    synchronize: true,
+    logging: false,
+    entities: [
+      'dist/models/*.{ts,js}',
+    ],
+    migrations: [
+      'dist/database/migration/*.{ts,js}',
+    ]
+  }
   dbconfig.ssl = true;
   dbconfig.extra = {
     ssl: {
@@ -26,4 +36,4 @@ if (process.env.NODE_ENV !== 'dev') {
   };
 }
 
-export default dbconfig;
+module.exports = dbconfig;
