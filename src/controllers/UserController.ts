@@ -74,7 +74,7 @@ class UserController {
                 homeTeam,
             });
             if (validationErrors.length === 0) {
-                const userUpdated: User = await UserService.updateUser(userId, {
+                const userUpdated: User = await UserService.updateUser(userId, user, {
                     name,
                     email,
                     password,
@@ -85,6 +85,7 @@ class UserController {
                 if (userUpdated) return res.status(200).json(userUpdated);
 
                 return res.status(409).json({ error: "conflict email" });
+                
             } else return res.status(400).json(validationErrors);
         } catch (error) {
             console.error(error);

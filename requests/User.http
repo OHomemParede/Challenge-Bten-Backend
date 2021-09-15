@@ -2,47 +2,52 @@
 GET http://localhost:3010/api/users
 
 ### GET USER
-GET http://localhost:3010/api/users/3
+GET http://localhost:3010/api/users/1
 
 ### DELETE USER
-DELETE http://localhost:3010/api/users/2
+DELETE http://localhost:3010/api/users/1
+
 
 ### ADD USER
 POST http://localhost:3010/api/users
 content-type: application/json
 
 {
-  "name": "Teste B",
-  "email": "testeB@gmail.com",
+  "name": "Vireo alivaceus",
+  "email": "vireo@gmail.com",
   "password": "123456",
-  "age": 5,
+  "age": 3,
   "height": 0.23,
   "homeTeam": "Coritian"
 }
 
+
 ### UPDATE USER
-PUT http://localhost:3010/api/users/3
+PUT http://localhost:3010/api/users/1
 content-type: application/json
 
 {
-  "name": "Teste A",
-  "email": "testeA@gmail.com",
-  "password": "1234567"
+  "name": "Megarynchus pitangua",
+  "email": "pitangua@gmail.com",
+  "password": "123456",
+  "homeTeam": ""
 }
+
 
 ### LOGIN USER
 POST http://localhost:3010/api/users/login
 content-type: application/json
 
 {
-  "email": "testeA@gmail.com",
-  "password": "1234567"
+  "email": "pitangua@gmail.com",
+  "password": "123456"
 }
 
 
 ### AUTH USER
-POST http://localhost:3010/api/users/auth
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjMsImVtYWlsIjoidGVzdGVBQGdtYWlsLmNvbSIsImlhdCI6MTYzMTY3NTQ5NSwiZXhwIjoxNjMxNjc3Mjk1fQ.AnaJHQfQELUCbRDjs0Rx6kGH96tSE5-CLpiaSH5J_Bk
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjEsImVtYWlsIjoicGl0YW5ndWFAZ21haWwuY29tIiwiaWF0IjoxNjMxNzA5ODE2LCJleHAiOjE2MzE3MTE2MTZ9.Bt_5c3HQSJr2BZFfdB3uqWLlHkXGtm-RZe_NnrckYMA
 
+GET http://localhost:3010/api/users/auth
+Authorization: Bearer {{token}}
 
 

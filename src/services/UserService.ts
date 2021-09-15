@@ -39,7 +39,7 @@ class UserService {
     }
 
     //============================ getUser ============================
-    async getUser(userId: string, showPassword: boolean = false): Promise<User> {
+    async getUser(userId: number | string, showPassword: boolean = false): Promise<User> {
         const userRepository: Repository<User> = getRepository(User);
         const user: User = await userRepository.findOne(userId);
 
@@ -74,9 +74,11 @@ class UserService {
         return userSaved;
     }
 
+
     //============================ updateUser ============================
     async updateUser(
-        userId: string,
+        userId: number | string,
+        userInDatabase: User,
         userData: {
             name: string;
             email: string;
@@ -100,11 +102,10 @@ class UserService {
         const userExists: User = await userRepository.findOne({
             where: { email: user.email },
         });
-        if (userExists) if (userId !== userExists.idUser.toString()) return null;
+        if (userExists) 
+            if (userId != userExists.idUser) 
+                return null;
 
-        const userInDatabase: User = await userRepository.findOne({
-            where: { idUser: userId },
-        });
         const samePassword: boolean = await userInDatabase.passwordValidate(password);
         if (!samePassword) user.password = password;
 
@@ -114,7 +115,7 @@ class UserService {
     }
 
     //============================ deleteUser ============================
-    async deleteUser(userId: string) {
+    async deleteUser(userId: number | string) {
         const userRepository: Repository<User> = getRepository(User);
         return await userRepository.delete(userId);
     }
@@ -141,14 +142,12 @@ class UserService {
     async authUser(token: string) {
         const tokenData = await Token.validateToken(token);
         if(!tokenData)
-            return null;
+            return false;
             
         const userRepository: Repository<User> = getRepository(User);
         const user: User = await userRepository.findOne({ where: { email: (<any>tokenData).email } });
 
-        return await this.getUser( (<any>user.idUser) );
-
-
+        return await this.getUser(user.idUser);
     }
 }   
 export default new UserService();
