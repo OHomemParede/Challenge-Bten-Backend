@@ -1,0 +1,33 @@
+### GET USERS
+GET http://localhost:3010/api/users
+
+### GET USER
+GET http://localhost:3010/api/users/1
+
+### DELETE USER
+DELETE http://localhost:3010/api/users/6
+
+### ADD USER
+POST http://localhost:3010/api/users
+content-type: application/json
+
+{
+  "name": "Teste B",
+  "email": "testeB@gmail.com",
+  "password": "123456",
+  "age": 5,
+  "height": 0.23,
+  "homeTeam": "Coritian"
+}
+
+### UPDATE USER
+PUT http://localhost:3010/api/users/1
+content-type: application/json
+
+{
+  "name": "Teste A",
+  "email": "testeB@gmail.com",
+  "password": "123456"
+}
+
+### LOGIN USER
